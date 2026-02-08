@@ -27,38 +27,49 @@ Where:
 - **Array Size**: 100 million elements per array
 - **Total Memory**: ~2.4 GB (3 arrays × 100M × 8 bytes)
 - **Operation**: `A[i] = B[i] + 3.3 * C[i]`
-- **Threads**: 1 to 8 cores
+- **Threads**: 1 to 17 cores
 
 ## Results
 
 | Cores | Time (s) | BW (GB/s) | Speedup |
-|-------|----------|-----------|---------|
-| 1     | 0.838    | 2.86      | 1.00x   |
-| 2     | 0.208    | 11.54     | 4.03x   |
-| 3     | 0.174    | 13.79     | 4.82x   |
-| 4     | 0.177    | 13.56     | 4.73x   |
-| 5     | 0.171    | 14.04     | 4.90x   |
-| 6     | 0.176    | 13.64     | 4.76x   |
-| 7     | 0.173    | 13.87     | 4.84x   |
-| 8     | 0.170    | 14.12     | 4.93x   |
+|-------|----------|-----------|---------||
+| 1     | 0.419    | 5.73      | 1.00x   |
+| 2     | 0.120    | 20.00     | 3.49x   |
+| 3     | 0.100    | 24.00     | 4.19x   |
+| 4     | 0.089    | 26.97     | 4.71x   |
+| 5     | 0.104    | 23.08     | 4.03x   |
+| 6     | 0.104    | 23.08     | 4.03x   |
+| 7     | 0.108    | 22.22     | 3.88x   |
+| 8     | 0.095    | 25.26     | 4.41x   |
+| 9     | 0.087    | 27.59     | 4.82x   |
+| 10    | 0.094    | 25.53     | 4.46x   |
+| 11    | 0.104    | 23.08     | 4.03x   |
+| 12    | 0.107    | 22.43     | 3.92x   |
+| 13    | 0.093    | 25.81     | 4.51x   |
+| 14    | 0.103    | 23.30     | 4.07x   |
+| 15    | 0.105    | 22.86     | 3.99x   |
+| 16    | 0.088    | 27.27     | 4.76x   |
+| 17    | 0.097    | 24.74     | 4.32x   |
 
 ## Performance Analysis
 
 ### Execution Time
-- **Single Core**: 0.838 seconds
-- **8 Cores**: 0.170 seconds
-- **Time Reduction**: 80% decrease
+- **Single Core**: 0.419 seconds
+- **Best Performance**: 0.087 seconds at 9 cores
+- **Time Reduction**: 79.2% decrease
 
 ### Memory Bandwidth
-- **Single Core**: 2.86 GB/s (baseline)
-- **Peak Bandwidth**: 14.12 GB/s at 8 cores
-- **Bandwidth Increase**: 4.94x improvement
-- **Saturation Point**: Bandwidth plateaus around 13.5-14.1 GB/s after 3 cores
+- **Single Core**: 5.73 GB/s (baseline)
+- **Peak Bandwidth**: 27.59 GB/s at 9 cores
+- **Bandwidth Increase**: 4.82x improvement
+- **Average Bandwidth (4-17 cores)**: 24.5 GB/s
+- **Performance Variability**: Bandwidth fluctuates between 22-28 GB/s with higher thread counts
 
 ### Speedup Analysis
-- **Best Speedup**: 4.93x at 8 cores
-- **Parallel Efficiency**: 61.6% (4.93/8 = 0.616)
-- **Strong Scaling**: Good scaling from 1-3 cores, then plateaus
+- **Best Speedup**: 4.82x at 9 cores
+- **Parallel Efficiency at 9 cores**: 53.6% (4.82/9 = 0.536)
+- **Parallel Efficiency at 17 cores**: 25.4% (4.32/17 = 0.254)
+- **Strong Scaling**: Good scaling from 1-4 cores, then shows diminishing returns
 
 ## Key Observations
 
@@ -97,7 +108,14 @@ Where:
 For memory-intensive operations:
 1. **Data Transfer Dominates**: Moving 2.4 GB of data takes longer than arithmetic
 2. **Shared Resource**: All cores compete for memory bus access
-3. **Bandwidth Ceiling**: Physical memory controller limit (~14 GB/s in this system)
+3. **Bandwidth Ceiling**: Physical memory controller limit (~27-28 GB/s peak in this system)
+4. **NUMA Effects**: Memory access patterns and thread placement affect performance
+5. **Thread Overhead**: Beyond optimal count, synchronization overhead outweighs benefits
+
+## Optimal Configuration
+- **Best Performance**: 9 cores (0.087s, 27.59 GB/s, 4.82x speedup)
+- **Recommendation**: Use 4-9 threads for memory-bound workloads on this system
+- **Avoid**: Thread counts > 12 show diminished returns and increased variability
 4. **Amdahl's Law Effect**: Memory bandwidth is the sequential bottleneck
 
 ## Theoretical vs Actual Performance
