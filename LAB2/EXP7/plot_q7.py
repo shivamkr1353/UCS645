@@ -3,9 +3,9 @@ import numpy as np
 
 # Experimental results
 cores = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17]
-time = [0.407, 0.102, 0.115, 0.101, 0.094, 0.096, 0.096, 0.093, 0.090, 0.094, 0.093, 0.090, 0.096, 0.096, 0.092, 0.093, 0.090]
-bandwidth = [5.90, 23.53, 20.87, 23.76, 25.53, 25.00, 25.00, 25.81, 26.67, 25.53, 25.81, 26.67, 25.00, 25.00, 26.09, 25.81, 26.67]
-speedup = [1.00, 3.99, 3.54, 4.03, 4.33, 4.24, 4.24, 4.38, 4.52, 4.33, 4.38, 4.52, 4.24, 4.24, 4.42, 4.38, 4.52]
+time = [0.419, 0.120, 0.100, 0.089, 0.104, 0.104, 0.108, 0.095, 0.087, 0.094, 0.104, 0.107, 0.093, 0.103, 0.105, 0.088, 0.097]
+bandwidth = [5.73, 20.00, 24.00, 26.97, 23.08, 23.08, 22.22, 25.26, 27.59, 25.53, 23.08, 22.43, 25.81, 23.30, 22.86, 27.27, 24.74]
+speedup = [1.00, 3.49, 4.19, 4.71, 4.03, 4.03, 3.88, 4.41, 4.82, 4.46, 4.03, 3.92, 4.51, 4.07, 3.99, 4.76, 4.32]
 
 # Create figure with 3 subplots
 fig, (ax1, ax2, ax3) = plt.subplots(1, 3, figsize=(18, 5))
@@ -111,11 +111,14 @@ for c, s in zip(cores, speedup):
 
 # Add efficiency annotations
 efficiency_2 = (speedup[1] / 2) * 100
-efficiency_8 = (speedup[-1] / 8) * 100
+efficiency_9 = (speedup[8] / 9) * 100
+efficiency_17 = (speedup[-1] / 17) * 100
 plt.text(2, speedup[1] - 0.5, f'Efficiency: {efficiency_2:.1f}%', ha='center', fontsize=9, 
          bbox=dict(boxstyle='round', facecolor='wheat', alpha=0.8))
-plt.text(8, speedup[-1] - 0.5, f'Efficiency: {efficiency_8:.1f}%', ha='center', fontsize=9,
-         bbox=dict(boxstyle='round', facecolor='wheat', alpha=0.8))
+plt.text(9, speedup[8] + 0.3, f'Efficiency: {efficiency_9:.1f}%', ha='center', fontsize=9,
+         bbox=dict(boxstyle='round', facecolor='lightgreen', alpha=0.8))
+plt.text(17, speedup[-1] - 0.5, f'Efficiency: {efficiency_17:.1f}%', ha='center', fontsize=9,
+         bbox=dict(boxstyle='round', facecolor='lightcoral', alpha=0.8))
 
 plt.tight_layout()
 plt.savefig('speedup_vs_cores.png', dpi=300, bbox_inches='tight')
