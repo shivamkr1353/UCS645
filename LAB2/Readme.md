@@ -189,24 +189,35 @@ Measure memory bandwidth limitations using the Triad kernel (A = B + scalar × C
 ### Results
 | Cores | Time (s) | Bandwidth (GB/s) | Speedup |
 |-------|----------|------------------|---------|
-| 1     | 0.838    | 2.86             | 1.00x   |
-| 2     | 0.208    | 11.54            | 4.03x   |
-| 3     | 0.174    | 13.79            | 4.82x   |
-| 4     | 0.177    | 13.56            | 4.73x   |
-| 5     | 0.171    | 14.04            | 4.90x   |
-| 6     | 0.176    | 13.64            | 4.76x   |
-| 7     | 0.173    | 13.87            | 4.84x   |
-| 8     | 0.170    | 14.12            | 4.93x   |
+| 1     | 0.419    | 5.73             | 1.00x   |
+| 2     | 0.120    | 20.00            | 3.49x   |
+| 3     | 0.100    | 24.00            | 4.19x   |
+| 4     | 0.089    | 26.97            | 4.71x   |
+| 5     | 0.104    | 23.08            | 4.03x   |
+| 6     | 0.104    | 23.08            | 4.03x   |
+| 7     | 0.108    | 22.22            | 3.88x   |
+| 8     | 0.095    | 25.26            | 4.41x   |
+| 9     | 0.087    | 27.59            | 4.82x   |
+| 10    | 0.094    | 25.53            | 4.46x   |
+| 11    | 0.104    | 23.08            | 4.03x   |
+| 12    | 0.107    | 22.43            | 3.92x   |
+| 13    | 0.093    | 25.81            | 4.51x   |
+| 14    | 0.103    | 23.30            | 4.07x   |
+| 15    | 0.105    | 22.86            | 3.99x   |
+| 16    | 0.088    | 27.27            | 4.76x   |
+| 17    | 0.097    | 24.74            | 4.32x   |
 
 ### Observation
-- **Bandwidth Saturation**: Plateaus at ~14 GB/s after 3 cores
-- **Sub-linear Speedup**: Only 4.93x with 8 cores (61.6% efficiency)
-- **Physical Limit**: Memory controller bandwidth ceiling reached
-- **Diminishing Returns**: Cores 4-8 provide <3% additional improvement
-- **Memory-Bound**: CPU cores wait for data, not compute-limited
+- **Peak Bandwidth**: 27.59 GB/s achieved at 9 cores (4.82x higher than single core)
+- **Sub-linear Speedup**: Best speedup 4.82x at 9 cores (53.6% efficiency)
+- **Performance Variability**: Bandwidth fluctuates between 22-28 GB/s for 4+ cores
+- **Optimal Range**: 4-9 threads provide best performance
+- **Diminishing Returns**: Performance plateaus and becomes inconsistent beyond 9 cores
+- **Memory-Bound**: CPU cores wait for data; NUMA effects and memory contention visible
+- **Efficiency Degradation**: Drops from 100% (1 core) to 53.6% (9 cores) to 25.4% (17 cores)
 
 ### Conclusion
-Memory bandwidth is a **critical physical bottleneck** for data-intensive operations. The Triad kernel saturates at ~14 GB/s regardless of core count beyond 3. This demonstrates that not all workloads benefit from more cores - memory-bound tasks require optimizing data access patterns, not just adding threads.
+Memory bandwidth is a **critical physical bottleneck** for data-intensive operations, peaking at ~27-28 GB/s. Beyond 4-9 cores, performance becomes variable due to NUMA effects and memory channel contention. This demonstrates that not all workloads benefit from more cores - memory-bound tasks are limited by physical memory controller bandwidth, not CPU capacity. Optimal thread count (4-9) balances bandwidth utilization with synchronization overhead.
 
 ---
 
@@ -247,7 +258,7 @@ Memory bandwidth is a **critical physical bottleneck** for data-intensive operat
 | Exp 4      | 72% faster   | N/A        | Load imbalance   |
 | Exp 5      | 72.25x       | N/A        | Synchronization  |
 | Exp 6      | 5.11x        | N/A        | False sharing    |
-| Exp 7      | 4.93x (8T)   | 61.6%      | Memory bandwidth |
+| Exp 7      | 4.82x (9T)   | 53.6%      | Memory bandwidth |
 
 ### Best Practices Derived
 
