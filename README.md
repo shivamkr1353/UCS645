@@ -15,6 +15,17 @@ This repository contains all my work for the UCS645 course. Each lab and assignm
   - Performance observations  
   - Key takeaways  
 
+## Completed Labs
+
+- **[LAB1](https://github.com/shivamkr1353/UCS645/tree/lab1/LAB1)**: Introduction to OpenMP and Multi-threading
+- **[LAB2](https://github.com/shivamkr1353/UCS645/tree/lab-2/LAB2)**: Advanced OpenMP & Performance Profiling
+- **[LAB3](https://github.com/shivamkr1353/UCS645/tree/LAB3/LAB3)**: OpenMP Work-Sharing Constructs and Reduction
+- **[LAB4](https://github.com/shivamkr1353/UCS645/tree/LAB4/LAB4)**: Introduction to MPI (Message Passing Interface)
+- **[LAB5](https://github.com/shivamkr1353/UCS645/tree/LAB5/LAB5)**: Advanced MPI & Hybrid Programming
+- **[LAB6](https://github.com/shivamkr1353/UCS645/tree/LAB6/LAB6)**: Introduction to CUDA
+- **[LAB7](https://github.com/shivamkr1353/UCS645/tree/LAB7/LAB7)**: CUDA Part II (Advanced Kernels and Profiling)
+- **[LAB8](https://github.com/shivamkr1353/UCS645/tree/LAB8/LAB8)**: GPU Programming with PyTorch and CuPy
+
 ---
 
 ## Purpose
